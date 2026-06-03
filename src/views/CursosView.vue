@@ -1,19 +1,21 @@
 <script setup>
+import { onMounted } from 'vue'
 import { BRow, BCol } from 'bootstrap-vue-next'
 import CursoCard from '../components/CursoCard.vue'
+import { useCursoStore } from '../stores/curso'
 
-const cursos = [
-  { id: 1, titulo: 'Python para Principiantes', descripcion: 'Aprende Python desde cero.', categoria: 'Programación', nivel: 'Básico', precio: 15.50 },
-  { id: 2, titulo: 'Fotografía Profesional', descripcion: 'Iluminación y composición avanzada.', categoria: 'Arte', nivel: 'Avanzado', precio: 45.00 },
-  { id: 3, titulo: 'Marketing Digital 360', descripcion: 'SEO, SEM y Redes Sociales.', categoria: 'Marketing', nivel: 'Intermedio', precio: 29.99 },
-]
+const cursoStore = useCursoStore()
+
+onMounted(() => {
+    cursoStore.getCursos()
+})
 </script>
 
 <template>
   <div>
     <h2 class="mb-4">Catálogo de Cursos</h2>
     <BRow>
-      <BCol md="4" v-for="curso in cursos" :key="curso.id" class="mb-4">
+      <BCol md="4" v-for="curso in cursoStore.cursos" :key="curso.id" class="mb-4">
         <CursoCard :curso="curso" />
       </BCol>
     </BRow>

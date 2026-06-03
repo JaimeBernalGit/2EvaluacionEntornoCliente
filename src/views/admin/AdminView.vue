@@ -1,15 +1,27 @@
 <script setup>
+import { onMounted } from 'vue'
 import { BTable, BButton } from 'bootstrap-vue-next'
+import { useCursoStore } from '../../stores/curso'
+import { useUsuarioStore } from '../../stores/usuario'
+
+const cursoStore = useCursoStore()
+const usuarioStore = useUsuarioStore()
 
 const camposCursos = ['titulo', 'categoria', 'nivel', 'precio', 'acciones']
-const cursos = [
-  { titulo: 'Python para Principiantes', categoria: 'Programación', nivel: 'Básico', precio: '15.50€' },
-]
+const camposUsuarios = ['nombre', 'nombre_Usuario', 'correo', 'rol', 'acciones']
 
-const camposUsuarios = ['nombre', 'nombre_usuario', 'correo', 'rol', 'acciones']
-const usuarios = [
-  { nombre: 'Ana García', nombre_usuario: 'ana_g', correo: 'ana@email.com', rol: 'admin' },
-]
+onMounted(() => {
+    cursoStore.getCursos()
+    usuarioStore.getUsuarios()
+})
+
+const eliminarCurso = async (id) => {
+    await cursoStore.deleteCurso(id)
+}
+
+const eliminarUsuario = async (id) => {
+    await usuarioStore.deleteUsuario(id)
+}
 </script>
 
 <template>
@@ -17,18 +29,18 @@ const usuarios = [
     <h2 class="mb-4">Panel de Administración</h2>
 
     <h4>Gestión de Cursos</h4>
-    <BTable :items="cursos" :fields="camposCursos" class="mb-5">
-      <template #cell(acciones)>
+    <BTable :items="cursoStore.cursos" :fields="camposCursos" class="mb-5">
+      <template #cell(acciones)="{ item }">
         <BButton size="sm" variant="warning" class="me-2">Editar</BButton>
-        <BButton size="sm" variant="danger">Eliminar</BButton>
+        <BButton size="sm" variant="danger" @click="eliminarCurso(item.id)">Eliminar</BButton>
       </template>
     </BTable>
 
     <h4>Gestión de Usuarios</h4>
-    <BTable :items="usuarios" :fields="camposUsuarios">
-      <template #cell(acciones)>
+    <BTable :items="usuarioStore.usuarios" :fields="camposUsuarios">
+      <template #cell(acciones)="{ item }">
         <BButton size="sm" variant="warning" class="me-2">Editar</BButton>
-        <BButton size="sm" variant="danger">Eliminar</BButton>
+        <BButton size="sm" variant="danger" @click="eliminarUsuario(item.id)">Eliminar</BButton>
       </template>
     </BTable>
   </div>
