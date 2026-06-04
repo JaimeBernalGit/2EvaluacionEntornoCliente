@@ -1,7 +1,16 @@
 <script setup>
-import { BNavbar, BNavbarBrand, BNavbarNav, BNavItem } from 'bootstrap-vue-next'
-import { useRoute } from 'vue-router'
+import { BNavbar, BNavbarBrand, BNavbarNav, BNavItem, BButton } from 'bootstrap-vue-next'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
+
 const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+
+const logout = () => {
+    authStore.logout()
+    router.push('/')
+}
 </script>
 
 <template>
@@ -10,7 +19,15 @@ const route = useRoute()
     <BNavbarNav>
       <BNavItem to="/" :active="route.path === '/'">Inicio</BNavItem>
       <BNavItem to="/cursos" :active="route.path === '/cursos'">Cursos</BNavItem>
-      <BNavItem to="/login">Login</BNavItem>
+      <BNavItem v-if="authStore.isAdmin" to="/admin" :active="route.path === '/admin'">
+        ⚙ Admin
+      </BNavItem>
+    </BNavbarNav>
+    <BNavbarNav class="ms-auto">
+      <BNavItem v-if="!authStore.isLoggedIn" to="/login">Login</BNavItem>
+      <BNavItem v-else @click="logout" style="cursor: pointer;">
+        Cerrar sesión ({{ authStore.usuario?.unique_name }})
+      </BNavItem>
     </BNavbarNav>
   </BNavbar>
 </template>

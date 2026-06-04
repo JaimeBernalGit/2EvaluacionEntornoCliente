@@ -1,10 +1,16 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
+import { useAuthStore } from "./auth"
 
 export const useCursoStore = defineStore("curso", () => {
     const cursos = ref([])
     const curso = ref(null)
     const API_URL = "http://localhost:9689/api/Curso"
+
+    const getHeaders = () => {
+        const authStore = useAuthStore()
+        return { "Authorization": `Bearer ${authStore.token}` }
+    }
 
     const getCursos = async () => {
         const response = await fetch(API_URL)
@@ -19,6 +25,7 @@ export const useCursoStore = defineStore("curso", () => {
     const createCurso = async (formData) => {
         await fetch(API_URL, {
             method: "POST",
+            headers: getHeaders(),
             body: formData
         })
         await getCursos()
@@ -27,13 +34,17 @@ export const useCursoStore = defineStore("curso", () => {
     const updateCurso = async (id, formData) => {
         await fetch(`${API_URL}/${id}`, {
             method: "PUT",
+            headers: getHeaders(),
             body: formData
         })
         await getCursos()
     }
 
     const deleteCurso = async (id) => {
-        await fetch(`${API_URL}/${id}`, { method: "DELETE" })
+        await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
+            headers: getHeaders()
+        })
         await getCursos()
     }
 

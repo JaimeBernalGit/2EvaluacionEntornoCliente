@@ -1,6 +1,6 @@
 <script setup>
-import AdminHeader from '../components/AdminHeader.vue'
-import AdminFooter from '../components/AdminFooter.vue'
+import AdminHeader from "../components/AdminHeader.vue"
+import AdminFooter from "../components/AdminFooter.vue"
 </script>
 
 <template>

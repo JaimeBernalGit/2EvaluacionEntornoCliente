@@ -1,5 +1,5 @@
 <script setup>
-import { BCard, BCardText } from 'bootstrap-vue-next'
+import { BCard, BCardText } from "bootstrap-vue-next"
 defineProps({
   curso: { type: Object, required: true }
 })
