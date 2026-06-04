@@ -1,5 +1,5 @@
 <script setup>
-import { BNavbar, BNavbarBrand, BNavbarNav, BNavItem, BButton } from 'bootstrap-vue-next'
+import { BNavbar, BNavbarBrand, BNavbarNav, BNavItem } from 'bootstrap-vue-next'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
@@ -17,16 +17,28 @@ const logout = () => {
   <BNavbar variant="dark" style="background-color: #343a40;" class="px-3">
     <BNavbarBrand to="/">CursosApp</BNavbarBrand>
     <BNavbarNav>
-      <BNavItem to="/" :active="route.path === '/'">Inicio</BNavItem>
-      <BNavItem to="/cursos" :active="route.path === '/cursos'">Cursos</BNavItem>
-      <BNavItem v-if="authStore.isAdmin" to="/admin" :active="route.path === '/admin'">
-        ⚙ Admin
+      <BNavItem to="/">
+        <span :style="route.path === '/' ? 'color: #ffc107; font-weight: bold;' : 'color: white;'">
+          Inicio
+        </span>
+      </BNavItem>
+      <BNavItem to="/cursos">
+        <span :style="route.path === '/cursos' ? 'color: #ffc107; font-weight: bold;' : 'color: white;'">
+          Cursos
+        </span>
+      </BNavItem>
+      <BNavItem v-if="authStore.isAdmin" to="/admin">
+        <span :style="route.path.startsWith('/admin') ? 'color: #ffc107; font-weight: bold;' : 'color: white;'">
+          ⚙ Admin
+        </span>
       </BNavItem>
     </BNavbarNav>
     <BNavbarNav class="ms-auto">
-      <BNavItem v-if="!authStore.isLoggedIn" to="/login">Login</BNavItem>
+      <BNavItem v-if="!authStore.isLoggedIn" to="/login">
+        <span style="color: white;">Login</span>
+      </BNavItem>
       <BNavItem v-else @click="logout" style="cursor: pointer;">
-        Cerrar sesión ({{ authStore.usuario?.unique_name }})
+        <span style="color: #adb5bd;">Cerrar sesión ({{ authStore.usuario?.unique_name }})</span>
       </BNavItem>
     </BNavbarNav>
   </BNavbar>
