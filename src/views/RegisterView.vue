@@ -12,9 +12,9 @@ const fotoPerfil = ref(null)
 
 const schema = yup.object({
     nombre: yup.string().required('El nombre es obligatorio'),
-    nombre_usuario: yup.string().required('El usuario es obligatorio'),
+    nombre_usuario: yup.string().required('El usuario es obligatorio').min(3, 'Mínimo 3 caracteres'),
     correo: yup.string().required('El correo es obligatorio').email('El correo no es válido'),
-    password: yup.string().required('La contraseña es obligatoria'),
+    password: yup.string().required('La contraseña es obligatoria').min(6, 'Mínimo 6 caracteres'),
 })
 
 const { handleSubmit, errors } = useForm({ validationSchema: schema })
