@@ -5,7 +5,7 @@ import { useAuthStore } from "./auth"
 export const useUsuarioStore = defineStore("usuario", () => {
     const usuarios = ref([])
     const usuario = ref(null)
-    const API_URL = "http://localhost:9689/api/Usuario"
+    const API_URL = import.meta.env.VITE_API_URL + "/api/Usuario"
 
     const getHeaders = () => {
         const authStore = useAuthStore()

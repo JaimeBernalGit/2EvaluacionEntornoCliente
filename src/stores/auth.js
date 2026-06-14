@@ -4,7 +4,7 @@ import { ref, computed } from "vue"
 export const useAuthStore = defineStore("auth", () => {
     const token = ref(null)
     const usuario = ref(null)
-    const API_URL = "http://localhost:9689"
+    const API_URL = import.meta.env.VITE_API_URL
 
     // computed para saber si hay sesión activa
     const isLoggedIn = computed(() => token.value !== null)

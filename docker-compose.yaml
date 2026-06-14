@@ -1,7 +1,18 @@
 version: '3.9'
 
 services:
-  
+
+  front:
+    image: jaimebg/cursos-front:latest
+    container_name: cursos_front_container
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+    networks:
+      - backend
+    restart: unless-stopped
+
   api:
     image: jaimebg/cursos-api:latest
     container_name: cursos_api_container
@@ -19,14 +30,14 @@ services:
     depends_on:
       - db-init
     networks:
-      - backend 
+      - backend
     restart: unless-stopped
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver_practica
     ports:
-      - "9869:1433" 
+      - "9869:1433"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=TuPasswordFuerte123!

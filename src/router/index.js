@@ -20,6 +20,9 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true },
       children: [
         { path: "", component: () => import("../views/admin/AdminView.vue") },
+        { path: "cursos/crear", component: () => import("../views/admin/CursoFormView.vue") },
+        { path: "cursos/editar/:id", component: () => import("../views/admin/CursoFormView.vue") },
+        { path: "usuarios/editar/:id", component: () => import("../views/admin/UsuarioFormView.vue") },
       ]
     },
     { path: "/login", component: () => import("../views/LoginView.vue") },
@@ -29,12 +32,8 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const authStore = useAuthStore()
-
-  if (to.meta.requiresAuth && !authStore.isLoggedIn)
-    return "/login"
-
-  if (to.meta.requiresAdmin && !authStore.isAdmin)
-    return "/"
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) return "/login"
+  if (to.meta.requiresAdmin && !authStore.isAdmin) return "/"
 })
 
 export default router
